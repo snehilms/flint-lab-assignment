@@ -26,13 +26,7 @@ Make sure you have the following software installed on your machine:
     git clone https://github.com/your-username/ethereum-token-tracker.git
     ```
 
-2. Navigate to the project directory.
-
-    ```bash
-    cd ethereum-token-tracker
-    ```
-
-3. Install dependencies.
+2. Install dependencies.
 
     ```bash
     npm install
