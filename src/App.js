@@ -7,6 +7,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [ethPrice, setEthPrice] = useState(null);
   const [percentageChange, setPercentageChange] = useState(null);
+  const [showTable, setShowTable] = useState(false);
 
   const chainMapping = {
     Kroma: 'https://api.kromascan.com/api?module=account&action=balance&tag=latest&apikey=W5U8VP5HQ3F9PCU3YJI1H39JR7BJF6XX25&address=',
@@ -56,52 +57,48 @@ function App() {
   const fetchData = async () => {
     setLoading(true);
     const updatedBalances = {};
-
-    for (const chain in chainMapping) {
-      const apiUrl = `${chainMapping[chain]}${contractAddress}`;
-
-      try {
+  
+    try {
+      const requests = Object.keys(chainMapping).map(async (chain) => {
+        const apiUrl = `${chainMapping[chain]}${contractAddress}`;
         const response = await fetch(apiUrl);
-
+  
         if (!response.ok) {
           throw new Error(`Network response was not ok: ${response.status}`);
         }
-
+  
         const data = await response.json();
         const tokenBalance = (data.result / 1e18).toFixed(3);
         const value = ethPrice !== null ? (tokenBalance * ethPrice).toFixed(3) : '';
-
-        updatedBalances[chain] = {
-          tokenBalance,
-          value,
-        };
-      } catch (error) {
-        console.error(`Error fetching data for ${chain}:`, error);
-        updatedBalances[chain] = {
-          tokenBalance: 'N/A',
-          value: '',
-        };
-      }
+  
+        if (tokenBalance !== '0.000') {
+          updatedBalances[chain] = {
+            tokenBalance,
+            value,
+          };
+        }
+      });
+  
+      await Promise.all([fetchEthPrice(), fetchHistoricalPrice(), ...requests]);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+      setBalances(updatedBalances);
+      setShowTable(true);
     }
-
-    setBalances(updatedBalances);
-    setLoading(false);
   };
+  
 
   const handleFetchData = async () => {
     // Trigger fetchData when the "Fetch Data" button is clicked
-    try {
-      await Promise.all([fetchEthPrice(), fetchHistoricalPrice()]);
-      fetchData();
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
+    await fetchData();
   };
 
   useEffect(() => {
     // Fetch data for the default contractAddress or any initial setup if needed
-    fetchData();
-  }, [ethPrice, contractAddress]);
+    fetchEthPrice();
+  }, []);
 
   return (
     <div className="App">
@@ -111,9 +108,8 @@ function App() {
           <input type="text" value={contractAddress} onChange={handleInputChange} />
           <button onClick={handleFetchData}>Fetch Data</button>
         </p>
-        {loading && <p>Loading...</p>}
-
-        {ethPrice !== null && percentageChange !== null && !loading && Object.keys(balances).length > 0 && (
+  
+        {showTable && !loading && ethPrice !== null && percentageChange !== null && Object.keys(balances).length > 0 && (
           <table className="Table">
             <thead>
               <tr>
@@ -140,6 +136,7 @@ function App() {
       </header>
     </div>
   );
+  
 }
 
 export default App;
