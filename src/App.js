@@ -91,12 +91,10 @@ function App() {
   };
 
   const handleFetchData = async () => {
-    // Trigger fetchData when the "Fetch Data" button is clicked
     await fetchData();
   };
 
   useEffect(() => {
-    // Fetch data for the default contractAddress or any initial setup if needed
     fetchEthPrice();
   }, []);
 
@@ -134,7 +132,7 @@ function App() {
           </table>
         )}
 
-        {percentageChange !== null && (
+        {showTable && ethPrice !== null && percentageChange !== null && (
           <div style={{ marginTop: '20px', textAlign: 'center' }}>
             <Speedometer
               width={300}
@@ -145,10 +143,11 @@ function App() {
               needleColor="red"
               customSegmentStops={[-25, -10, -5, 0, 5, 10, 25]}
             />
-            {parseFloat(percentageChange) > 10 && (
-              <div style={{ marginTop: '10px', color: 'red' }}>Alert: Percentage Change more than 10%</div>
-            )}
           </div>
+        )}
+
+        {showTable && percentageChange !== null && parseFloat(percentageChange) > 10 && (
+          <div style={{ marginTop: '10px', color: 'red', textAlign: 'center' }}>Alert: Percentage Change more than 10%</div>
         )}
       </header>
     </div>
