@@ -6,7 +6,6 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-- [Folder Structure](#folder-structure)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -44,23 +43,6 @@ Make sure you have the following software installed on your machine:
 
 3. You should see the Ethereum Token Tracker app running.
 
-## Folder Structure
-
-The project follows the following folder structure:
-
-/src
-/components
-- Speedometer.js
-/styles
-- App.css
-
-App.js
-index.js
-/public
-index.html
-...
-css
-Copy code
 
 ## Contributing
 
