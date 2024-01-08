@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Speedometer from 'react-d3-speedometer';
 import './App.css';
 
 function App() {
@@ -57,20 +58,20 @@ function App() {
   const fetchData = async () => {
     setLoading(true);
     const updatedBalances = {};
-  
+
     try {
       const requests = Object.keys(chainMapping).map(async (chain) => {
         const apiUrl = `${chainMapping[chain]}${contractAddress}`;
         const response = await fetch(apiUrl);
-  
+
         if (!response.ok) {
           throw new Error(`Network response was not ok: ${response.status}`);
         }
-  
+
         const data = await response.json();
         const tokenBalance = (data.result / 1e18).toFixed(3);
         const value = ethPrice !== null ? (tokenBalance * ethPrice).toFixed(3) : '';
-  
+
         if (tokenBalance !== '0.000') {
           updatedBalances[chain] = {
             tokenBalance,
@@ -78,7 +79,7 @@ function App() {
           };
         }
       });
-  
+
       await Promise.all([fetchEthPrice(), fetchHistoricalPrice(), ...requests]);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -88,7 +89,6 @@ function App() {
       setShowTable(true);
     }
   };
-  
 
   const handleFetchData = async () => {
     // Trigger fetchData when the "Fetch Data" button is clicked
@@ -108,7 +108,7 @@ function App() {
           <input type="text" value={contractAddress} onChange={handleInputChange} />
           <button onClick={handleFetchData}>Fetch Data</button>
         </p>
-  
+
         {showTable && !loading && ethPrice !== null && percentageChange !== null && Object.keys(balances).length > 0 && (
           <table className="Table">
             <thead>
@@ -133,10 +133,26 @@ function App() {
             </tbody>
           </table>
         )}
+
+        {percentageChange !== null && (
+          <div style={{ marginTop: '20px', textAlign: 'center' }}>
+            <Speedometer
+              width={300}
+              height={180}
+              minValue={-25}
+              maxValue={25}
+              value={parseFloat(percentageChange)}
+              needleColor="red"
+              customSegmentStops={[-25, -10, -5, 0, 5, 10, 25]}
+            />
+            {parseFloat(percentageChange) > 10 && (
+              <div style={{ marginTop: '10px', color: 'red' }}>Alert: Percentage Change more than 10%</div>
+            )}
+          </div>
+        )}
       </header>
     </div>
   );
-  
 }
 
 export default App;
