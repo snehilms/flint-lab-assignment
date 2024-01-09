@@ -10,7 +10,7 @@
 - [License](#license)
 
 ## Getting Started
-
+## Access the Deployment on : https://flint-lab-assignment-amber.vercel.app/
 ### Prerequisites
 
 Make sure you have the following software installed on your machine:
