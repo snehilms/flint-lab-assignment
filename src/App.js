@@ -105,6 +105,7 @@ function App() {
         <div className="NavBar">
           <div className="NavBarTitle">Flint Labs Assignment - Crypto Explorer</div>
         </div>
+       
         <p>
           <span>Enter Contract Address:</span>
           <input type="text" value={contractAddress} onChange={handleInputChange} />
@@ -154,6 +155,9 @@ function App() {
         {showTable && percentageChange !== null && parseFloat(percentageChange) > 10 && (
           <div className="AlertContainer">Alert: Percentage Change more than 10%</div>
         )}
+        <div className="NameContainer">
+        <p className="Name">Made by: Snehil S Kumar<br></br> 2019B2A30985P</p>
+      </div>
       </header>
     </div>
   );

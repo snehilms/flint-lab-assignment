@@ -20,7 +20,17 @@
   font-weight: bold;
   color: white;
 }
+.NameContainer {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
 
+.Name {
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+}
 p {
   display: flex;
   align-items: center;
