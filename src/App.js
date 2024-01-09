@@ -10,7 +10,7 @@ function App() {
   const [ethPrice, setEthPrice] = useState(null);
   const [percentageChange, setPercentageChange] = useState(null);
   const [showTable, setShowTable] = useState(false);
-
+  // API mappings for ease of adding different chains
   const chainMapping = {
     Kroma: 'https://api.kromascan.com/api?module=account&action=balance&tag=latest&apikey=W5U8VP5HQ3F9PCU3YJI1H39JR7BJF6XX25&address=',
     Linea: 'https://api.lineascan.build/api?module=account&action=balance&tag=latest&apikey=I6D591367TT68PGT1IAYM8VD4SUD46RWE9&address=',
@@ -21,7 +21,7 @@ function App() {
   const handleInputChange = (event) => {
     setContractAddress(event.target.value);
   };
-
+  // Fetching price of ethereum
   const fetchEthPrice = async () => {
     try {
       const response = await fetch('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD&api_key=06f48d3c67ee9533a351e08690d5202d2a73f15b60ca50cf492df6b5218142e0');
@@ -36,7 +36,7 @@ function App() {
       console.error('Error fetching Ethereum price:', error);
     }
   };
-
+  // Calculating Percentage Change based on historical price
   const fetchHistoricalPrice = async () => {
     try {
       const response = await fetch(historicalPriceApiUrl);
@@ -55,7 +55,7 @@ function App() {
       console.error('Error fetching historical price data:', error);
     }
   };
-
+  // Fetching the Balance data from the chain
   const fetchData = async () => {
     setLoading(true);
     const updatedBalances = {};
