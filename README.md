@@ -1,4 +1,5 @@
 # Flint Lab Assignment - Flint Lab Crypto Explorer
+![alt text](https://github.com/snehilms/flint-lab-assignment/blob/main/applicationimg.png?raw=true)
 
 ## Table of Contents
 
