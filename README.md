@@ -44,11 +44,16 @@ Make sure you have the following software installed on your machine:
 
 3. You should see the Ethereum Token Tracker app running.
 
+   
+## Functionalities
+1. Displays token balances of all wallet address on supported chains
+2. Support of new chains can be easily added by integrating the APIs.
+3. Tabular layout and Interactive UI for clean display of token balances
+4. Percentage change of 12 hr of the token balance shown in creative way using Speedometer
+5. Notification provided when balanced is reduced by 10% on the UI.
+
 
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
