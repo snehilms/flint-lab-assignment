@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Speedometer from 'react-d3-speedometer';
 import './App.css';
+import Loader from './Loader';
 
 function App() {
   const [contractAddress, setContractAddress] = useState('');
@@ -12,7 +13,7 @@ function App() {
 
   const chainMapping = {
     Kroma: 'https://api.kromascan.com/api?module=account&action=balance&tag=latest&apikey=W5U8VP5HQ3F9PCU3YJI1H39JR7BJF6XX25&address=',
-    Linea: 'https://api.lineascan.build/api?module=account&action=balance&tag=latest&apikey=I6D591367TT68PGT1IAYM8VD4SUD46RWE9&address='
+    Linea: 'https://api.lineascan.build/api?module=account&action=balance&tag=latest&apikey=I6D591367TT68PGT1IAYM8VD4SUD46RWE9&address=',
   };
 
   const historicalPriceApiUrl = 'https://min-api.cryptocompare.com/data/v2/histohour?fsym=ETH&tsym=USD&api_key=06f48d3c67ee9533a351e08690d5202d2a73f15b60ca50cf492df6b5218142e0&limit=12';
@@ -101,18 +102,21 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <div className="NavBar">
+          <div className="NavBarTitle">Flint Assignment - Crypto Explorer</div>
+        </div>
         <p>
-          Enter Contract Address:
+          <span>Enter Contract Address:</span>
           <input type="text" value={contractAddress} onChange={handleInputChange} />
           <button onClick={handleFetchData}>Fetch Data</button>
         </p>
-
+        {loading && <Loader />}
         {showTable && !loading && ethPrice !== null && percentageChange !== null && Object.keys(balances).length > 0 && (
           <table className="Table">
             <thead>
               <tr>
                 <th>Chain</th>
-                <th>Ethereum Price (USD)</th>
+                <th>Ethereum/Native Token Price (USD)</th>
                 <th>Token Balance</th>
                 <th>Value (USD)</th>
                 <th>Percentage Change (Last 12 Hrs)</th>
@@ -122,9 +126,9 @@ function App() {
               {Object.keys(balances).map(chain => (
                 <tr key={chain}>
                   <td>{chain}</td>
-                  <td>{ethPrice}</td>
+                  <td>${ethPrice}</td>
                   <td>{balances[chain].tokenBalance}</td>
-                  <td>{balances[chain].value}</td>
+                  <td>${balances[chain].value}</td>
                   <td>{percentageChange}%</td>
                 </tr>
               ))}
@@ -133,7 +137,7 @@ function App() {
         )}
 
         {showTable && ethPrice !== null && percentageChange !== null && (
-          <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          <div className="SpeedometerContainer">
             <Speedometer
               width={300}
               height={180}
@@ -143,11 +147,12 @@ function App() {
               needleColor="red"
               customSegmentStops={[-25, -10, -5, 0, 5, 10, 25]}
             />
+            
           </div>
         )}
 
         {showTable && percentageChange !== null && parseFloat(percentageChange) > 10 && (
-          <div style={{ marginTop: '10px', color: 'red', textAlign: 'center' }}>Alert: Percentage Change more than 10%</div>
+          <div className="AlertContainer">Alert: Percentage Change more than 10%</div>
         )}
       </header>
     </div>
