@@ -103,7 +103,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div className="NavBar">
-          <div className="NavBarTitle">Flint Assignment - Crypto Explorer</div>
+          <div className="NavBarTitle">Flint Labs Assignment - Crypto Explorer</div>
         </div>
         <p>
           <span>Enter Contract Address:</span>
