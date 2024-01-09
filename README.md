@@ -52,6 +52,9 @@ Make sure you have the following software installed on your machine:
 4. Percentage change of 12 hr of the token balance shown in creative way using Speedometer
 5. Notification provided when balanced is reduced by 10% on the UI.
 
+## Note:
+I am sharing the API keys with the users since this is for assignment purpose, ideal practice to prepare a separate env variable for local deployment or secrets for production
+
 
 ## Contributing
 
